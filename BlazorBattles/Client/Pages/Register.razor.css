@@ -1,5 +1,5 @@
 ﻿.required::after {
-    content: " ***************";
+    content: " *";
     font-weight: bold;
     color: red;
 }
