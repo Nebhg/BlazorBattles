@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components.Authorization;
+﻿using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,18 +10,32 @@ namespace BlazorBattles.Client
 {
     public class CustomAuthStateProvider : AuthenticationStateProvider
     {
-        public override Task<AuthenticationState> GetAuthenticationStateAsync()
-        {
-            //return Task.FromResult(new AuthenticationState(new ClaimsPrincipal()));
+        private readonly ILocalStorageService _localStorageService;
 
-            var identity = new ClaimsIdentity(new[] { 
+        public CustomAuthStateProvider(ILocalStorageService localStorageService)
+        {
+            _localStorageService = localStorageService;
+        }
+
+        public override async Task<AuthenticationState> GetAuthenticationStateAsync()
+        {
+            var state = new AuthenticationState(new ClaimsPrincipal());
+
+            if (await _localStorageService.GetItemAsync<bool>("isAuthenticated"))
+            {
+                var identity = new ClaimsIdentity(new[] {
                 new Claim(ClaimTypes.Name, "Ben")
             }, "test authentication type");
-            var user = new ClaimsPrincipal(identity);
 
-            return Task.FromResult(new AuthenticationState(user));
+                var user = new ClaimsPrincipal(identity);
+                state = new AuthenticationState(user);
 
-            //return Task.FromResult(new AuthenticationState(new ClaimsPrincipal()));
+
+            }
+            NotifyAuthenticationStateChanged(Task.FromResult(state));
+            return state;
+
+
         }
     }
 }
