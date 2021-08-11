@@ -23,4 +23,24 @@
     <ProjectReference Include="..\Shared\BlazorBattles.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\Icons\1st pic.jpg" />
+    <None Include="wwwroot\Icons\2nd pic.jpg" />
+    <None Include="wwwroot\Icons\3rd image.jpg" />
+    <None Include="wwwroot\Icons\C130J.jpg" />
+    <None Include="wwwroot\Icons\compliance-removebg-preview.png" />
+    <None Include="wwwroot\Icons\customer service.png" />
+    <None Include="wwwroot\Icons\cyber.png" />
+    <None Include="wwwroot\Icons\De Havilland dash 8.jpg" />
+    <None Include="wwwroot\Icons\diamond-removebg-preview %281%29.png" />
+    <None Include="wwwroot\Icons\download.jfif" />
+    <None Include="wwwroot\Icons\dowty logo.png" />
+    <None Include="wwwroot\Icons\dowty-propellers_logo.png" />
+    <None Include="wwwroot\Icons\lean.png" />
+    <None Include="wwwroot\Icons\product safety.png" />
+    <None Include="wwwroot\Icons\Spitfire.jpg" />
+    <None Include="wwwroot\Icons\training.png" />
+    <None Include="wwwroot\Icons\travel.png" />
+  </ItemGroup>
+
 </Project>

@@ -1,11 +1,12 @@
 ﻿@page "/register"
 @inject IUnitService UnitService
-@inject IJSRuntime JSRuntime
 @inject NavigationManager NavigationManager
+@inject IAuthService AuthService
+@inject IToastService ToastService
 
 <h3>Register</h3>
 
-<EditForm Model="user" OnInvalidSubmit="HandleRegistration">
+<EditForm Model="user" OnValidSubmit="HandleRegistration">
     <DataAnnotationsValidator></DataAnnotationsValidator>
     <div class="form-group">
         <label for="email">Email</label>
@@ -36,9 +37,8 @@
         <label for="startUnit">Start Unit</label><br />
         <InputRadioGroup id="startUnit" @bind-Value="user.StartUnitId" class="form-control">
             @foreach (var unit in UnitService.Units)
-            { 
-                <InputRadio Value="@unit.Id" /> <span style="padding-left: 5px">@unit.Title</span><br />
-            }
+            {
+<InputRadio Value="@unit.Id" /> <span style="padding-left: 5px">@unit.Title</span><br />}
         </InputRadioGroup>
     </div>
     <div class="form-group">
@@ -48,28 +48,34 @@
     </div>
     <div class="form-group">
         <label for="dateOfBirth">Date</label>
-        <InputDate id="dateOfBirth" @bind-Value="user.DateOfBirth" class="form-control"></InputDate>   
+        <InputDate id="dateOfBirth" @bind-Value="user.DateOfBirth" class="form-control"></InputDate>
     </div>
     <div class="form-check">
         <InputCheckbox id="confirmed" @bind-Value="user.IsConfirmed" class="form-check-input"></InputCheckbox>
         <label for="confirmed" class="form-check-label">Confrimed</label>
         <ValidationMessage For="@(() => user.IsConfirmed)" />
     </div>
-   <button type="submit" class="btn btn-primary">Register</button>
+    <button type="submit" class="btn btn-primary">Register</button>
 </EditForm>
-@code 
-{
-    UserRegister user = new UserRegister();
+@code
+{ UserRegister user = new UserRegister();
 
     protected override async Task OnInitializedAsync()
     {
         await UnitService.LoadUnitsASync();
     }
 
-    void HandleRegistration()
+    async void HandleRegistration()
     {
-        //Console.WriteLine(user);
-        JSRuntime.InvokeVoidAsync("console.log", "The great user!", user);
-        NavigationManager.NavigateTo("login");
-    }
-}
+        var result = await AuthService.Register(user);
+        if (result.Success)
+        {
+            ToastService.ShowSuccess("Successful registration");
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            ToastService.ShowError(result.Message);
+        }
+
+    } }
