@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 
+//d
 namespace BlazorBattles.Client.Services
 {
     public class AuthService : IAuthService
